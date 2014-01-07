@@ -1,0 +1,90 @@
+\documentclass{book}
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage[
+  pdftitle=Theory of Computation: An Introduction,
+  pdfauthor=Jeffrey Finkelstein,
+  pagebackref=true,
+]{hyperref}
+
+% store the title in two places
+\makeatletter
+\def\title#1{\gdef\@title{#1}\gdef\THETITLE{#1}}
+\makeatother
+
+\newcommand{\makehalftitle}{
+  {\centering \Large
+    \vspace*{5em}
+    \textsc{\THETITLE}
+  }
+}
+
+\title{Theory of Computation: An Introduction}
+\author{Jeffrey Finkelstein}
+
+\begin{document}
+
+\frontmatter
+
+% Half title page goes here
+\makehalftitle
+
+% Empty page
+
+% Title page
+\maketitle
+
+% Copyright and ISBN information
+\input{colophon}
+
+% Dedication goes here
+\newpage
+\input{dedication}
+
+\tableofcontents
+
+\chapter{Preface} \input{preface}
+\chapter{Introduction} \input{intro}
+
+\newpage
+\input{dedication}
+
+% Second half title page goes here
+\newpage
+\makehalftitle
+
+\mainmatter
+
+\part{Models of computation} \input{tmintro}
+
+\chapter{What is an algorithm?} \input{algorithm}
+\chapter{What is a computer?} \input{computer}
+\chapter{The Turing Machine model} \input{turingmachine}
+\chapter{Simulations} \input{simulations}
+\chapter{The Church--Turing Thesis} \input{churchturing}
+
+\part{Computability} \input{computabilityintro}
+
+\chapter{Countable sets} \input{countable}
+\chapter{Uncountable sets} \input{uncountable}
+\chapter{Recognizability} \input{recognizable}
+\chapter{The halting problem} \input{halting}
+\chapter{Decidability} \input{decidable}
+
+\part{Complexity} \input{complexityintro}
+
+\chapter{Time} \input{time}
+\chapter{Space} \input{space}
+\chapter{Reductions} \input{reductions}
+\chapter{P vs NP} \input{pvsnp}
+\chapter{Randomness} \input{randomness}
+
+\appendix
+\chapter{Symbols} \input{symbols}
+
+\backmatter
+
+\chapter{Bibliography} \input{bibliography}
+\chapter{Index} \input{index}
+
+\end{document}
