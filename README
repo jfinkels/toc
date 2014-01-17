@@ -20,19 +20,22 @@ Compilation dependencies
 Besides `pdflatex`, the following LaTeX packages are required to compile this
 document:
 
-* `lipsum`
 * `graphicx`
 * `hyperref`
+* `lipsum`
+* `listings`
 
 On Ubuntu 13.10, the necessary system packages which contain these LaTeX
 packages are:
 
 * `texlive-latex-base`
 * `texlive-latex-extra`
+* `texlive-latex-recommended`
 
 To install them, run
 
-    sudo apt-get install texlive-latex-base texlive-latex-extra
+    sudo apt-get install texlive-latex-base texlive-latex-extra \
+      texlive-latex-recommended
 
 Compiling
 ---------
@@ -49,7 +52,7 @@ The output is `toc.pdf`, and can be viewed with any PDF reader.
 Copyright
 ---------
 
-Copyright 2013 Jeffrey Finkelstein.
+Copyright 2014 Jeffrey Finkelstein.
 
 Both the LaTeX markup and the compiled book are licensed under the Creative
 Commons Attribution-ShareAlike 4.0 International License. To view a copy of
