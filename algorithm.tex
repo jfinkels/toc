@@ -11,6 +11,96 @@
 %%   3. task: one task may have many algorithms that perform it (though some
 %%      have none at all [computability], and some have none that are efficient
 %%      [complexity]).
-\lipsum
 
-\input{algorithm-ex}
+Algorithm and computer are inseparable concepts.
+In order to answer the question ``what is a computer?'', we must first answer the question ``what is an algorithm?'', in order to solidify what we want our computer to be able to do.
+This chapter examines the properties that characterize our expectations for an algorithm.
+
+We propose the definition of an algorithm as a finite sequence of instructions that, when followed, reliably performs a task.
+With this definition in mind, we will be able to develop a concept of computer in the next chapter.
+
+\section{Algorithms are finite}
+
+Although it may run for an infinite number of steps, an algorithm has a finite description.
+We can measure the size of an algorithm by counting, for example, the number of characters in its description.
+
+\begin{example}
+  The Python program below, which prints the first ten natural numbers, has 32 characters (including the line break character).
+  \begin{lstlisting}[language=Python]
+    for i in range(10):
+        print(i)
+  \end{lstlisting}
+\end{example}
+
+\begin{example}
+  The Python program below, which repeatedly prints the number seven, has 38 characters (including the line break character).
+  \begin{lstlisting}[language=Python]
+    while True:
+        print(7)
+  \end{lstlisting}
+  Although this algorithm is finite, it runs forever when executed by a computer.
+\end{example}
+
+Infinite programs do not match our intuitive notion of algorithms.
+How would one express an infinite algorithm?
+How would one provide an infinite algorithm to a computer?
+
+\section{Algorithms are sequential}
+
+An algorithm is a sequence of discrete instructions.
+A sequence, not a set, is crucial: ``sweep, then mop'' is different from ``mop, then sweep''.
+For our purposes, such a sequence can be expressed at three levels of granularity: high-level, implementation-level, and formal descriptions.
+
+A high-level description of an algorithm is an English language description which relies on our shared understanding of how to write computer programs.
+
+\begin{example}
+  Given a polynomial, find the roots of the polynomial.
+
+  This description is probably at too high a level to be considered a high-level description of an algorithm; the procedure for finding the roots of a polynomial is not immediately obvious, nor can it be inferred from context.
+\end{example}
+
+\begin{example}
+  Given a list of integers, sort the list.
+
+  This algorithm is probably acceptable as a high-level description of an algorithm in most situations, because most readers know some procedure for sorting a integers.
+\end{example}
+
+\begin{example}
+  The following is a high-level description of an algorithm that decides whether two vertices in a graph are connected.
+  Given a graph and two vertices $s$ and $t$ in the graph, initially mark $s$, then repeatedly mark unmarked neighbors of any marked nodes, until there are no more such neighbors.
+  The vertices $s$ and $t$ are connected if and only if $t$ becomes marked.
+\end{example}
+
+An implementation-level description is a mostly English language description of how the machine executing the algorithm should act, relying on our programming experience to fill in the details of how exactly the machine should act.
+
+\begin{example}
+\end{example}
+
+A formal description, with respect to a particular machine, is the exact program that, when provided exactly as written to that machine, performs the task.
+This is the C program, the Python program, and later in this book, the Turing machine program.
+
+\begin{example}
+  This is the formal description, in the Python programming language, of an algorithm that performs a depth-first search on a tree starting from \verb|current_node|, printing each node encountered during the search.
+  \begin{lstlisting}[language=Python]
+    def depth_first_search(current_node):
+        print(current_node)
+        for child in current_node.children:
+            depth_first_search(child)
+  \end{lstlisting}
+\end{example}
+
+\section{Algorithms perform a task}
+
+An algorithm, when followed precisely, reliably performs a task.
+A task may have many algorithms that perform it.
+The following three Python programs perform the same task: printing the number two.
+\begin{lstlisting}[language=Python]
+print(2)
+
+print(3 - 1)
+
+print(4 - 2)
+\end{lstlisting}
+Extrapolating from these examples, there are an infinite number of programs that perform this task.
+In fact, if a task admits an algorithm at all, then it admits an infinite number of algorithms.
+However, not all tasks have algorithms that perform them (this is Computability Theory, \autoref{prt:computability}), and each algorithm for a task may use a different amount of resources like time, space, or randomness (this is Complexity Theory, \autoref{prt:complexity}).

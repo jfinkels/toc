@@ -6,6 +6,15 @@
   pdfauthor={Jeffrey Finkelstein},
   pagebackref=true,
 ]{hyperref}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily, %% monospace fonts in code listings
+  %upquote=true, %% make single quotes straight, not curly
+  showstringspaces=false  %% don't show underscores instead of spaces
+}
+
+\newenvironment{example}{\textbf{Example:}}{}
 
 % store the title in two places
 \makeatletter
