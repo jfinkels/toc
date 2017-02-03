@@ -1,1 +1,68 @@
-\lipsum
+\begin{definition}
+  A set $S$ is \emph{countably infinite} if there is a bijection from $\mathbb{N}$ to $S$ (or vice versa, since bijections are invertible).
+  A set is \emph{uncountably infinite} if no such bijection exists.
+\end{definition}
+
+The natural numbers are countably infinite as witnessed by the identity function.
+The integers are countably infinite as well.
+
+\begin{theorem}
+  The set of integers $\mathbb{Z}$ is countably infinite.
+\end{theorem}
+\begin{proof}
+  The required bijection is the function $f(n) = (-1)^{p} \lceil n / 2 \rceil$, where $p$ is the parity of $n$, that is, $p = 1$ if $n$ is odd and $p = 0$ if $n$ is even.
+  When written as an ordered sequence, this yields
+  $$
+  (0, -1, +1, -2, +2, \dotsc)
+  $$
+\end{proof}
+
+The set of all pairs of natural numbers is countably infinite as well; we use a special function to define an order for them.
+
+\begin{definition}
+  Suppose $S$ and $T$ are two countably infinite sets as witnessed by the functions $s$ and $t$, respectively.
+  The \emph{dovetail function} $d \colon \mathbb{N} \to (S \times T)$ is defined as described in the following diagram.
+  \ldots
+\end{definition}
+
+\begin{lemma}
+  Suppose $S$ and $T$ are two countably infinite sets.
+  The dovetail function on $S$ and $T$ is a bijection.
+\end{lemma}
+\begin{proof}
+  One can prove this directly by using the formula for the dovetail function, $d(n) = ...$
+\end{proof}
+
+The dovetail function is a bijection from the natural numbers to the Cartesian product of two countably infinite sets, which means the Cartesian product itself is countably infinite.
+
+\begin{theorem}
+  The Cartesian product of two countably infinite sets is countably infinite.
+\end{theorem}
+
+\begin{corollary}
+  The set of rational number $\mathbb{Q}$ is countably infinite.
+\end{corollary}
+\begin{proof}
+  The set of rational numbers is the set of quotients of integers; each rational number is of the form $m / n$, where $m$ and $n$ are integers.
+  There is a bijection from the set of pairs of integers to the set of rational numbers, namely the function $(m, n) \mapsto m / n$.
+  Since bijections compose, it now suffices to prove that the set of pairs of integers is countably infinite.
+  Since the set of integers is countably infinite \autoref{thm:integerscountable} and the Cartesian product of two countably infinite sets is countably infinite \autoref{thm:cartesiancountable}, the set of pairs of integers is countably infinite.
+  Now since bijections compose and there is both a bijection from $\mathbb{N}$ to $\mathbb{Z} \times \mathbb{Z}$ and a bijection from $\mathbb{Z} \times \mathbb{Z}$ to $\mathbb{Q}$, we have therefore shown a bijection from $\mathbb{N} to \mathbb{Q}$.
+  Therefore $\mathbb{Q}$ is countably infinite.
+\end{proof}
+
+The theorem above can be extended to any arbitrary number of Cartesian products.
+
+\begin{theorem}
+  Suppose $n$ is a natural number and $\{S_0, \dotsc, S_{n - 1}\}$ is a collection of $n$ countably infinite sets.
+  Then $S_0 \times \dotsb \times S_{n - 1}$ is countably infinite.
+\end{theorem}
+\begin{proof}
+  This is a proof by mathematical induction on $n$.
+  For the base case, if $n$ is zero, then the collection of sets is empty, so there is a trivial bijection to it (the empty function).
+  For the inductive case, suppose that the proposition is true for any collection of $n - 1$ countably infinite sets.
+  Since the Cartesian product of $n$ sets can be written as $(S_0 \times \dotsb \times S_{n - 2}) \times S_{n - 1}$, we can use the inductive hypothesis to state that $S_0 \times \dotsb \times S_{n - 2}$ is countably infinite.
+  Now we have the Cartesian product of $S_0 \times \dotsb S_{n - 2}$ and $S_{n - 1}$, two countably infinite sets.
+  By \autoref{thm:productcountable}, this product is countably infinite.
+  Therefore we have shown by induction that the proposition is true for all natural numbers $n$.
+\end{proof}
