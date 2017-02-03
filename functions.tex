@@ -1,0 +1,131 @@
+\begin{definition}
+  A function on binary strings is \emph{computable} if there is a Turing machine $M$ such that for each input $x$, the machine $M$ halts with $f(x)$ on its tape.
+\end{definition}
+
+Some functions are not computable.
+
+\begin{theorem}
+  Suppose $L$ is an undecidable language.
+  The characteristic function $\chi_L$ is uncomputable.
+\end{theorem}
+\begin{proof}
+  This is a proof by contradiction.
+  If $\chi_L$ is computable, then $L$ can be decided by the Turing machine that, on input $x$, computes $\chi_L(x)$ and accepts exactly when $\chi_L(x) = 1$.
+  If $x$ is in $L$, then $\chi_L(x) = 1$, so the machine accepts.
+  Conversely, if $x$ is not in $L$, then $\chi_L(x) = 0$, so the machine rejects.
+  Therefore $L$ is decidable---a contradiction with the hypothesis.
+\end{proof}
+
+For example, the characteristic function of the halting problem, $\chi_H$, is uncomputable.
+
+\section{Kolmogorov complexity}
+
+The Kolmogorov complexity of a binary string is the length of the smallest Turing machine that outputs it, where ``small'' is measured by the number of bits in the encoding of the machine.
+
+\begin{definition}
+  The \emph{Kolmogorov complexity} function, denoted $K$, is defined by
+  $$
+  K(x) = \min \{ |\langle M \rangle| | M \text{ halts on input } \lambda \text{ with } x \text{ on its tape}\},
+  $$
+  for all binary strings $x$.
+\end{definition}
+
+Kolmogorov complexity is a notion of the amount of ``information'' present in a binary string.
+If a string very little information, then it can be described by a very short program.
+For example, a string of fifty ones can be expressed in Python as follows.
+\begin{lstlisting}[language=Python]
+  [1] * 50
+\end{lstlisting}
+However, a string of fifty bits generated from a random number generator is more difficult to describe succinctly:
+%% From:  n=50; for i in `seq $n`; do shuf -i 0-1 -n 1; done | paste -s -d "
+$$
+01000001110000010110111010000001100000010000000110
+$$
+
+\begin{definition}
+  A binary string $x$ is called \emph{incompressible} if $K(x) \geq |x|$.
+\end{definition}
+
+These kinds of strings exist, and there are an infinite number of them.
+
+\begin{theorem}
+  For each natural number $n$, there is an incompressible string of length $n$.
+\end{theorem}
+\begin{proof}
+  This is a proof by counting argument.
+  Let $n$ be a natural number.
+
+  %% Consider the \emph{evaluation function}, the function $\langle M \rangle \mapsto x$, where $\langle M \rangle$ is of length at most $n - 1$, the string $x$ is of length $n$, and $M$ halts on input $\lambda$ with $x$ on its tape.
+  %% We will show that no function $f \colon \mathcal{M}^{\leq n - 1} \to \{0, 1\}^n$ is surjective, which in turn shows that the evaluation function is not surjective.
+
+  There are $2^i$ binary strings of length $i$, so the total number of binary strings of length at most $n - 1$ is
+  $$
+  \sum_{i = 0}^{n - 1} 2^i,
+  $$
+  which equals $2^n - 1$.
+  This is the number of Turing machine descriptions of length at most $n - 1$.
+  On the other hand, the number of binary strings of length $n$ is $2^n$.
+  Since $2^n - 1 < 2^n$, any function from the set of Turing machine descriptions of length at most $n - 1$ to the set of strings of length $n$ cannot be surjective.
+  Specifically, the function that maps $\langle M \rangle$ to $x$ if $M$ halts on input $\lambda$ with $x$ on its tape, where $|\langle M \rangle|$ is of length at most $n - 1$ and $x$ is of length $n$, is not surjective.
+  Thus there is a string such that for each Turing machine $M$ whose description is of length at most $n - 1$, the machine $M$ does not output $x$.
+  That means that the description of any Turing machine that outputs $x$ must have length at least $n$, or in other words, $K(x) \geq n$.
+  Therefore there is an incompressible string of length $n$.
+
+  %% A string $x$ of length $n$ is incompressible if $K(x) \geq n$, which means by definition
+  %% $$
+  %% \min \{ |\langle M \rangle| | M \text{ halts on input } \lambda \text{ with } x \text{ on its tape}\} \geq n,
+  %% $$
+  %% or equivalently, for each Turing machine $M$ with $|\langle M \rangle| < n$, the machine $M$ either does not halt on input $\lambda$ or halts with something other than $x$ on its tape.
+
+  % we will show that the set of strings of length $n$ is strictly larger in cardinality pthan the set of Turing machines whose description is of length at most $n - 1$.
+
+  % We count the number of strings of length $n$ and compare that with the number of Turing machine description
+\end{proof}
+
+\begin{theorem}
+  $K$ is uncomputable.
+\end{theorem}
+\begin{proof}
+  This is a proof by contradiction.
+  Assume $K$ is computable, so there is a Turing machine $C$ that always halts with $K(x)$ on its tape on input $x$.
+
+  For each natural number $n$, we can construct a Turing machine $C_n$ defined as follows.
+  Ignoring its input, for each binary string $x$ in lexicographic order, if $C(x) \geq n$, then halt and output $x$.
+  This Turing machine always halts because $C$ always halts by assumption and there are incompressible strings of each length (\autoref{thm:incompressible}), so the machine must halt after it reaches the incompressible string of length $n$.
+  The machine $C_n$ on input $\lambda$ halts with a string $x$ on its tape such that $x$ is the lexicographically first string satisfying $K(x) \geq n$.
+
+  Let $y$ be the lexicographically first string with $K(y) \geq n$.
+  Since $C_n$ outputs $y$, we have $K(y) \leq |\langle C_n \rangle|$.
+  Now, using $c$, $c'$, $c''$, and $d$ to denote constants,
+  \begin{align*}
+  K(y) & \leq |\langle C_n \rangle| \\
+       & = |\langle C \rangle| + |n| + c \\
+       & = |\langle C \rangle| + \log n + c' + c \\
+       & = c'' + \log n + c' + c \\
+       & = \log n + d
+  \end{align*}
+  where $c$, $c'$, and $c''$ are constants that depend on the encoding of the Turing machines $C_n$ and $C$ and the natural number $n$, and $d = c'' + c' + c$.
+  The equation on the second line holds because the description for $C_n$ includes the description of $C$ and the description of $n$.
+  The equation on the third line holds because a natural number can be encoded in binary using about $\log n$ bits.
+  The fourth line uses the fact that the description of $C$ is a constant independent of $n$ (note that it was quantified before $n$ in this proof).
+
+  Combining our two inequalities, we have $n \leq K(y) \leq \log n + d$, so by the transitive property, $n \leq \log n + d$.
+  For sufficiently large $n$, we know $n > \log n + d$ by \autoref{lem:ngtlogn}, so this is a contradiction.
+  Therefore, $K$ must not be computable.
+\end{proof}
+
+\begin{corollary}
+  The following languages are undecidable.
+  \begin{enumerate}
+  \item The set of incompressible strings.
+  \item The set of pairs $(x, k)$ such that $K(x) \geq k$.
+  \end{enumerate}
+\end{corollary}
+\begin{proof}
+  The first proof is by contradiction.
+  Assume $K$ is computable.
+  We can decide whether a string $x$ is incompressible by computing $K(x)$ and then comparing that with $|x|$, accepting exactly when $K(x) \geq |x|$.
+  The second proof is a direct proof by a computable many-one reduction from the first language to the second.
+  The reduction is $x \mapsto (x, |x|)$, computable because the Turing machine computing the reduction copies the input to its output tape and writes the length of its input on its output tape.
+  Since $x$ is incompressible if and only if $K(x) \geq |x|$, the reduction is correct.
+\end{proof}
