@@ -1,1 +1,92 @@
-\lipsum
+Just as there are uncountable sets, there are undecidable languages.
+
+\begin{theorem}
+  The language $K$ defined by
+  $$
+  K = \{ \langle M \rangle | M \text{ accepts } \langle M \rangle \}
+  $$
+  is undecidable.
+\end{theorem}
+\begin{proof}
+  This is a proof by contradiction.
+  Assume that $K$ is decidable, and suppose $D$ is the Turing machine that decides it.
+  Let $N$ be the Turing machine that runs $D$ and outputs the opposite of whatever $D$ outputs, i.e. $N(x) = \lnot D(x)$ for each binary string $x$.
+  There are two cases to consider: whether $\langle N \rangle$ is in $K$ or not.
+
+  If $\langle N \rangle$ is in $K$, then by definition $N$ accepts $\langle N \rangle$, which means $D$ rejects $\langle N \rangle$ by construction.
+  Since $D$ decides the language $K$ and $D$ rejects $\langle N \rangle$, we know that $\langle N \rangle$ must not be in $K$.
+  This is a contradiction with our hypothesis.
+
+  Conversely, if $\langle N \rangle$ is not in $K$, then $N$ rejects $\langle N \rangle$, which means $D$ accepts $\langle N \rangle$.
+  Thus $\langle N \rangle$ must be in $K$, again a contradiction with our hypothesis.
+
+  In either case, we have a contradiction, thus we conclude that $K$ must not be decidable.
+\end{proof}
+
+With this first undecidable language, we can prove the undecidability of some other more sensible languages.
+
+\begin{theorem}
+  The language $A$ defined by
+  $$
+  A = \{ \langle M, x \rangle | M \text{ accepts } x\}
+  $$
+  is undecidable.
+\end{theorem}
+\begin{proof}
+  This is a direct proof.
+  We show a computable many-one reduction from $K$ to $A$.
+  The reduction is $\langle M \rangle \mapsto \langle M, \langle M \rangle \rangle$.
+  This function is computable because it essentially duplicates its input.
+  If $\langle M \rangle$ is in $K$, then $M$ accepts $\langle M \rangle$, so $\langle M, \langle M \rangle \rangle$ is in $A$.
+  Conversely, if $\langle M \rangle$ is not in $K$, then $M$ rejects $\langle M \rangle$, so $\langle M, \langle M \rangle \rangle$ is not in $A$.
+  Thus we have a computable Turing reduction from $K$ to $A$.
+  Since $K$ is undecidable, $A$ is undecidable as well by \autoref{lem:manyone}.
+\end{proof}
+
+\section{The halting problem}
+
+The language $H$ in the following theorem when viewed as a computational problem is known as the \emph{halting problem}.
+It is the formalization of the problem of programmatically deciding whether another computer program either terminates or loops forever.
+This theorem indicates that no such procedure exists for the general case of deciding whether an arbitrary computer program terminates.
+
+\begin{theorem}
+  The language $H$ defined by
+  $$
+  H = \{ \langle M, x \rangle | M \text{ halts on input } x\}
+  $$
+  is undecidable.
+\end{theorem}
+\begin{proof}
+  This is a direct proof.
+  We show a computable Turing reduction from $A$ to $H$.
+  The reduction is the function, $\langle M, x \rangle \mapsto \langle M', x \rangle$, where $M'$ is the Turing machine that simulates $M$, but when $M$ rejects, $M'$ loops forever.
+
+  If $\langle M, x \rangle$ is in $A$, then $M$ accepts $x$, and so does $M'$.
+  Specifically, $M'$ halts on $x$, and thus $\langle M', x \rangle$ is in $H$.
+
+  Conversely, if $\langle M, x \rangle$ is not in $A$, then $M$ rejects $x$, so $M'$ loops forever on $x$.
+  This means $M'$ does not halt on $x$, thus $\langle M', x \rangle$ is not in $H$.
+  Thus we have a computable Turing reduction from $A$ to $H$.
+  Since $A$ is undecidable, $H$ is undecidable as well by \autoref{lem:manyone}.
+\end{proof}
+
+\begin{theorem}
+  The language $J$ defined by
+  $$
+  J = \{ \langle M \rangle | \text{ there is an } x \text{ such that } M \text{ halts on } x\}
+  $$
+  is undecidable.
+\end{theorem}
+\begin{proof}
+  This is a direct proof.
+  We show a computable Turing reduction from $H$ to $J$.
+  The reduction is the function, $\langle M, x \rangle \mapsto \langle M' \rangle$, where $M'$ is the Turing machine that simulates $M$ when it receives $x$ as input but loops forever on any input besides $x$.
+
+  If $\langle M, x \rangle$ is in $H$, then $M$ halts on input $x$, and so does $M'$ by construction.
+  Thus there is an $x$ such that $M'$ halts, so $\langle M' \rangle$ is in $J$.
+
+  Conversely, if $\langle M, x \rangle$ is not in $H$, then $M$ does not halt on input $x$, so $M'$ also does not halt on input $x$.
+  Since $M'$ does not halt on input $x$ and does not halt on any other input by construction, $M'$ does not halt for any $x$, thus $\langle M' \rangle$ is not in $J$.
+  Thus we have a computable Turing reduction from $H$ to $J$.
+  Since $H$ is undecidable, $J$ is undecidable as well by \autoref{lem:manyone}.
+\end{proof}
