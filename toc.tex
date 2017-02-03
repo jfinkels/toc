@@ -7,34 +7,89 @@
 %% https://creativecommons.org/licenses/by-sa/4.0/.
 \documentclass{book}
 
+\usepackage{amsmath}
+\usepackage{amssymb}
 %% This must come before hyperref.
 \usepackage{amsthm}
+%% This is strongly recommended by biblatex.
+\usepackage[english]{babel}
+\usepackage[backend=biber]{biblatex}
+\usepackage[T1]{fontenc}
+\usepackage{lipsum}
+\usepackage{listings}
+%% This must come before csquotes.
+\usepackage[utf8]{inputenc}
+\usepackage{cfr-lm}
+%% This is strongly recommended by biblatex.
+\usepackage{csquotes}
 %% This must come before hyperref.
 \usepackage{thmtools}
 %% This must come before complexity.
 \usepackage{hyperref}
-%% This is strongly recommended by biblatex.
-\usepackage[english]{babel}
-%% This is strongly recommended by biblatex.
-\usepackage{csquotes}
-\usepackage[backend=biber]{biblatex}
-\usepackage{amsmath}
-%\usepackage{amssymb}
-\usepackage{lipsum}
-\usepackage{graphicx}
 \usepackage{complexity}
-\usepackage{listings}
+\usepackage[firstpage]{draftwatermark}
 
+\usepackage[final]{microtype}
+\usepackage{textcomp}
+
+%% Set the amount by which certain characters protrude into the margins.
+%%
+%% \LoadMicrotypeFile{cmr}
+%%
+%%     This command forces the built-in protrusion settings for the Computer
+%%     Modern Roman (cmr) font family to become available at this point, so
+%%     that we can override these settings on the next line.
+%%
+%% \SetProtrusion
+%%
+%%     This instructs the microtype package that we are going to modify the
+%%     protrusion settings.
+%%
+%% [load=cmr-T1]
+%%
+%%     Loads the Type 1 (T1) encoding of the font family named `cmr`, thereby
+%%     setting the default protrusion values for all the characters. This is
+%%     only possible after the \LoadMicrotypeFile{cmr} command.
+%%
+%% {encoding=T1, family=cmr}
+%%
+%%     Indicates that we are going to modify the protrusion values for the T1
+%%     encoding of the `cmr` font family.
+%%
+%% \textquotedblright = {,1000} (and similar commands)
+%%
+%%     Force the character given by \textquotedblright to have default
+%%     protrusion on the left margin (given by an empty string before the
+%%     comma) and full protrusion (that is, protrusion value 1000) on the right
+%%     margin.
+\LoadMicrotypeFile{cmr}
+\SetProtrusion
+    [load=cmr-T1]
+    {encoding=T1, family=cmr}
+    {
+      \textquotedblright = {,1000},
+      \textquotedblleft = {1000,},
+      {'} = {,1000},
+      {,} = {,1000},
+      {:} = {,1000},
+      {;} = {,1000},
+      {.} = {,1000}
+    }
+
+%% Set the ``work-in-progress'' watermark for the first page.
+\SetWatermarkLightness{0.9}
+\SetWatermarkText{Work-in-progress}
+\SetWatermarkFontSize{3.5cm}
+
+%% Set the title and author of the PDF file.
 \hypersetup{
   pdftitle={Theory of Computation: An Introduction},
   pdfauthor={Jeffrey Finkelstein},
-  pagebackref=true
+  pagebackref=true,
 }
 
-%\addbibresource{toc.bib}
-
-\declaretheorem[numberwithin=chapter]{theorem}
-\declaretheorem[numberlike=theorem, style=definition]{example}
+%% Declare the bibliography file.
+\addbibresource{document.bib}
 
 \lstset{
   basicstyle=\ttfamily, %% monospace fonts in code listings
@@ -42,12 +97,29 @@
   showstringspaces=false  %% don't show underscores instead of spaces
 }
 
-%\newenvironment{example}{\textbf{Example:}}{}
+%% Declare theorem-like environments.
+\declaretheorem[numberwithin=chapter]{theorem}
+\declaretheorem[numberlike=theorem]{lemma}
+\declaretheorem[numberlike=theorem]{corollary}
+\declaretheorem[numberlike=theorem, style=definition]{definition}
+\declaretheorem[numberlike=theorem, style=definition]{example}
+
+%% Custom commands are declared here.
+\newcommand{\email}[1]{\textlangle\href{mailto:#1}{\nolinkurl{#1}}\textrangle}
+\newcommand{\todo}[1]{\textbf{TODO #1}}
+
+%% Redefine the footnote environment so it has no reference and no number.
+\long\def\symbolfootnote#1{\begingroup%
+\def\thefootnote{\fnsymbol{footnote}}\footnotetext{#1}\endgroup}
 
 % store the title in two places
 \makeatletter
 \def\title#1{\gdef\@title{#1}\gdef\THETITLE{#1}}
 \makeatother
+
+%% Define the author, title, and date for the document.
+\author{Jeffrey Finkelstein}
+\title{Theory of Computation: An Introduction}
 
 \newcommand{\makehalftitle}{
   {\centering \Large
@@ -55,9 +127,6 @@
     \textsc{\THETITLE}
   }
 }
-
-\title{Theory of Computation: An Introduction}
-\author{Jeffrey Finkelstein}
 
 \begin{document}
 
@@ -129,7 +198,7 @@
 \input{uncountable}
 \input{uncountable-ex}
 
-\chapter{Recognizability}
+\chapter{Recognizable languages}
 \input{recognizable}
 \input{recognizable-ex}
 
@@ -140,6 +209,10 @@
 \chapter{Decidability}
 \input{decidable}
 \input{decidable-ex}
+
+\chapter{Computable functions}
+\input{functions}
+\input{functions-ex}
 
 \part{Complexity} \label{prt:complexity}
 \input{complexityintro}
